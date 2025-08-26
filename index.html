@@ -1,17 +1,29 @@
-<h3>Rezervacijos</h3>
-<ul id="eventsList"></ul>
+<h2>Rezervacijos forma</h2>
+<form id="reservationForm">
+  <input type="text" name="name" placeholder="Jūsų vardas" required>
+  <input type="date" name="date" required>
+  <button type="submit">Rezervuoti</button>
+</form>
+<div id="message"></div>
 
 <script>
-async function loadEvents() {
-    const res = await fetch('https://rezervacijos.freehosting.lt/get_events.php');
-    const events = await res.json();
-    const list = document.getElementById('eventsList');
-    list.innerHTML = '';
-    events.forEach(ev => {
-        const li = document.createElement('li');
-        li.textContent = `${ev.name} - ${ev.date}`;
-        list.appendChild(li);
+const form = document.getElementById('reservationForm');
+form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const data = {
+        name: formData.get('name'),
+        date: formData.get('date')
+    };
+    
+    const res = await fetch('https://rezervacijos.freehosting.lt/save_event.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
     });
-}
-loadEvents();
+    
+    const result = await res.json();
+    document.getElementById('message').innerText = result.message;
+    form.reset();
+});
 </script>
