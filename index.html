@@ -1,0 +1,17 @@
+<h3>Rezervacijos</h3>
+<ul id="eventsList"></ul>
+
+<script>
+async function loadEvents() {
+    const res = await fetch('https://rezervacijos.freehosting.lt/get_events.php');
+    const events = await res.json();
+    const list = document.getElementById('eventsList');
+    list.innerHTML = '';
+    events.forEach(ev => {
+        const li = document.createElement('li');
+        li.textContent = `${ev.name} - ${ev.date}`;
+        list.appendChild(li);
+    });
+}
+loadEvents();
+</script>

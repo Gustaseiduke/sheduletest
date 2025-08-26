@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rezervacijų sąrašas</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Visos rezervacijos</h1>
+<table border="1" cellspacing="0" cellpadding="5" style="margin:auto;">
+  <thead>
+    <tr>
+      <th>Vardas</th>
+      <th>Pradžia</th>
+      <th>Pabaiga</th>
+    </tr>
+  </thead>
+  <tbody id="events-table">
+  </tbody>
+</table>
+
+<script>
+fetch('events.json')
+.then(res => res.json())
+.then(events => {
+  const tbody = document.getElementById('events-table');
+  events.forEach(ev => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${ev.title}</td><td>${ev.start}</td><td>${ev.end}</td>`;
+    tbody.appendChild(tr);
+  });
+});
+</script>
+</body>
+</html>
